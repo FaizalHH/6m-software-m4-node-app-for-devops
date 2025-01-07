@@ -5,18 +5,17 @@ orbs:
 
 jobs:
   build:
-    docker: 
+    docker:
       - image: cimg/node:16.10
-    steps: 
+    steps:
       - checkout
       - node/install-packages:
           pkg-manager: npm
-      - run: |
-          echo "Installing dependencies..."
-          npm install
+      - run:
+          name: Install dependencies
+          command: npm install
 
-workflows: 
+workflows:
   simple_workflow:
     jobs:
-      -build
-        
+      - build
