@@ -2,6 +2,8 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.1
+  docker: circleci/docker@2.1.4
+  heroku: circleci/heroku@2.0.0
 
 jobs:
   build:
@@ -11,18 +13,35 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: npm
-      - run:
-          name: Install dependencies
-          command: npm install
+      - run: |
+          echo "Install dependencies"
+          npm install
 
   test:
     docker:
       - image: cimg/node:16.10
     steps:
       - checkout
+      - node/isntall-packages:
+          pkg-manager: npm
       - run:
-          name: Run tests
-          command: npm test
+          echo "Run tests"
+          npm run test
+  deploy:
+    docker:
+      - image:  cimg/node:16.10
+    steps:
+      - setup_remote_docker
+      - heroku/install
+      - checkout
+      - run:
+          name: Heroku Container Push
+          command: |
+            heroku container:login
+            heroku stack:set container -a faizal-su-devops
+            heroku container:push web -a faizal-su-devops
+            heroku container:release web -a faizal-su-devops
+
 
 workflows:
   simple_workflow:
@@ -31,3 +50,6 @@ workflows:
       - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - test
