@@ -27,6 +27,27 @@ jobs:
       - run:
           echo "Run tests"
           npm run test
+
+  build-and-push:
+    docker:
+      - images: cimg/node:16.10
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Build Docker Image
+          command:  |
+            docker build -t education-space/6m-software-m4-node-app-for-devops:${CIRCLE_SHA1} .
+      - run:
+          name: Login to Docker Image
+          command:  |
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - run:
+          name: Push Docker Image
+          command:  |
+            docker push education-space/6m-software-m4-node-app-for-devops:${CIRCLE_SHA1}
+
+
   deploy:
     docker:
       - image:  cimg/node:16.10
@@ -50,6 +71,9 @@ workflows:
       - test:
           requires:
             - build
-      - deploy:
+      - build-and-push:
           requires:
             - test
+      - deploy:
+          requires:
+            - build-and-push
