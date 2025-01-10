@@ -62,6 +62,17 @@ jobs:
           name: Push Odcker Image
           command:  docker push education-space/6m-software-m4-node-app-for-devops:1.0.0
 
+  publish:
+    executor: docker/docker
+    steps:
+      - csetup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          images: faizal/education-space
+      - docker/push:  
+          images: faizal/education-space
+
 workflows:
   simple_workflow:
     jobs:
