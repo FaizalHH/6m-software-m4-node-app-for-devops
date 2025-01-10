@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Docker Login
           command: |
-            echo "!Laziaf000001" | docker login -u "faizalhh17" --password-stdin
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       - run:
           name: Build Docker Image
           command: docker build -t education-space/6m-software-m4-node-app-for-devops .
