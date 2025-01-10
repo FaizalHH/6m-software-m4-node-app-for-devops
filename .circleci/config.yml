@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Verify Docker Hub Login
           command: |
-            echo "P@ssword1" | docker login -u "FHH17" --password-stdin
+            echo "P@ssw0rd" | docker login -u "FHH17" --password-stdin
       - run:
           name: Build Docker Image
           command: docker build -t education-space/6m-software-m4-node-app-for-devops .
