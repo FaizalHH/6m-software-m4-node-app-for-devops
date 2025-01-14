@@ -82,7 +82,7 @@ jobs:
       IMAGE_NAME: faizal/education-space
     steps:
       - checkout
-      - steup_remote_docker
+      - setup_remote_docker
       - docker/check
       - run:  docker build -t $IMAGE_NAME .
       - snyk/scan:
