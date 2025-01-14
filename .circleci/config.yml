@@ -86,21 +86,22 @@ jobs:
       - docker/check
       - run:  docker build -t $IMAGE_NAME .
       - snyk/scan:
-          docker-image-name: $IMAGE_NAME
+          docker-image-name:  $IMAGE_NAME
 
 workflows:
   simple_workflow:
     jobs:
       - build
-      - scan: 
+          # - deploy:
+          #     requires:
+          #       - test
+      - scan:
           requires:
             - build
+              
       - test:
           requires:
             - scan
-      - build-and-push:
-          requires:
-            - test
-      - deploy:
-          requires:
-            - test
+      # - build-and-push:
+      #     requires:
+      #       - test
