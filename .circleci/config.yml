@@ -44,25 +44,25 @@ jobs:
             heroku container:push web -a faizal-su-devops
             heroku container:release web -a faizal-su-devops
 
-  # build-and-push:
-  #   docker:
-  #     - image: cimg/node:16.10
-  #   steps: 
-  #     - setup_remote_docker
-  #     - checkout
-  #     - run:
-  #         name: Docker Hub Login
-  #         command: |
-  #           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  #     - run:
-  #         name: Build Docker Image
-  #         command: docker build -t education-space/6m-software-m4-node-app-for-devops .
-  #     - run:
-  #         name: Tag Docker Image
-  #         command:  docker tag education-space/6m-software-m4-node-app-for-devops:1.0.0
-  #     - run:
-  #         name: Push Odcker Image
-  #         command:  docker push education-space/6m-software-m4-node-app-for-devops:1.0.0
+  build-and-push:
+    docker:
+      - image: cimg/node:16.10
+    steps: 
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Docker Hub Login
+          command: |
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_LOGIN" --password-stdin
+      - run:
+          name: Build Docker Image
+          command: docker build -t education-space/6m-software-m4-node-app-for-devops .
+      - run:
+          name: Tag Docker Image
+          command:  docker tag education-space/6m-software-m4-node-app-for-devops:1.0.0
+      - run:
+          name: Push Odcker Image
+          command:  docker push education-space/6m-software-m4-node-app-for-devops:1.0.0
 
   publish:
     executor: docker/docker
