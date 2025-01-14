@@ -51,9 +51,9 @@ jobs:
       - setup_remote_docker
       - checkout
       - run:
-          name: Verify Docker Hub Login
+          name: Docker Hub Login
           command: |
-            echo "P@ssw0rd" | docker login -u "FHH17" --password-stdin
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - run:
           name: Build Docker Image
           command: docker build -t education-space/6m-software-m4-node-app-for-devops .
@@ -67,7 +67,7 @@ jobs:
   publish:
     executor: docker/docker
     steps:
-      - csetup_remote_docker
+      - setup_remote_docker
       - checkout
       - docker/check
       - docker/build:
